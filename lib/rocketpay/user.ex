@@ -10,9 +10,12 @@ defmodule Rocketpay.User do
     field :name, :string
     field :age, :integer
     field :email, :string
+    # o campo virtual nao e salvo no BD
     field :password, :string, virtual: true
     field :password_hash, :string
     field :nickname, :string
+
+    timestamps()
   end
 
   # mapeia (faz o cast certinho dos tipo de cada parametro) e valida dados para serem inseridos na tabela
@@ -36,7 +39,7 @@ defmodule Rocketpay.User do
     valid?: true,
     changes: %{password: password}
   } = changeset) do
-    # essa fn recebe um changeset e modifica seu campo "changes"
+    # essa fn recebe um changeset e modifica seu campo "changes" com base no map que recebe
     change(changeset, Bcrypt.add_hash(password))
   end
 
