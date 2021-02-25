@@ -8,7 +8,7 @@ defmodule Rocketpay.Users.Create do
     Multi.new()
     # cada uma das operacoes deve receber um nome
     |> Multi.insert(:create_user, User.changeset(params))
-    # o run() faz operacoes assim como o Repo, mas permite acessar resutado de operacoes
+    # o run() faz qualquer operacao do Repo, mas permite acessar resutado de operacoes
     # passadas pelo seu nome
     |> Multi.run(:create_account, fn repo, %{create_user: user} ->
       insert_account(repo, user)

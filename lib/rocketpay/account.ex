@@ -17,9 +17,10 @@ defmodule Rocketpay.Account do
   end
 
   # mapeia (faz o cast certinho dos tipo de cada parametro) e valida dados para serem inseridos na tabela
-  def changeset(params) do
-    # __MODULE__ é um alias para o modulo atual, nesse caso Rocketpay.User
-    %__MODULE__{}
+  # o \\ simplesmente define o valor padrao para o argumento
+  def changeset(struct \\ %__MODULE__{}, params) do
+    # __MODULE__ é um alias para o modulo atual, nesse caso Rocketpay.Account
+    struct
     |> cast(params, @required_params)
     # a partir do cast, a struct vira um changeset
     |> validate_required(@required_params)
