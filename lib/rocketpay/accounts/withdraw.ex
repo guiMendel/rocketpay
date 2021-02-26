@@ -14,7 +14,7 @@ defmodule Rocketpay.Accounts.Withdraw do
       # como queremos realizar uma transacao atomica, ignoramos detalhes do erro
       # se algo deu erro, tudo deu erro
       {:error, _operation, reason, _changes} -> {:error, reason}
-      {:ok, %{update_balance: account}} -> {:ok, account}
+      {:ok, %{withdraw: account}} -> {:ok, account}
     end
   end
 end
