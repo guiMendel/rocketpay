@@ -1,4 +1,5 @@
 defmodule RocketpayWeb.AccountsView do
+  alias Rocketpay.Accounts.Transactions.Response, as: TransactionResponse
   alias Rocketpay.Account
 
   def render("update.json", %{account: %Account{id: id, balance: balance}}) do
@@ -12,7 +13,7 @@ defmodule RocketpayWeb.AccountsView do
   end
 
   def render("transaction.json", %{
-        transaction: %{to_account: to_account, from_account: from_account}
+        transaction: %TransactionResponse{to_account: to_account, from_account: from_account}
       }) do
     %{
       message: "Transaction executed successfully",
