@@ -22,6 +22,11 @@ config :rocketpay, Rocketpay.Repo,
   migration_primary_key: [type: :binary_id],
   migration_foreign_key: [type: :binary_id]
 
+config :rocketpay, :basic_auth,
+  # username: System.get_env("AUTH_USERNAME"),
+  # password: System.get_env("AUTH_PASSWORD")
+  username: "pirata",
+  password: "ahoy"
 
 # Configures Elixir's Logger
 config :logger, :console,
