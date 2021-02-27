@@ -12,8 +12,8 @@ config :rocketpay,
 
 # Configures the endpoint
 config :rocketpay, RocketpayWeb.Endpoint,
-  url: [host: "localhost"],
-  secret_key_base: "82evMHYPfrZbbUCgx3x0SKyXEGjI75WrZ3LA/CVLwBd36It4EJXoiOP4JIie0n/B",
+  # url: [host: "https://mendel-rocketpay.herokuapp.com/"],
+  # secret_key_base: "82evMHYPfrZbbUCgx3x0SKyXEGjI75WrZ3LA/CVLwBd36It4EJXoiOP4JIie0n/B",
   render_errors: [view: RocketpayWeb.ErrorView, accepts: ~w(json), layout: false],
   pubsub_server: Rocketpay.PubSub,
   live_view: [signing_salt: "pPZe/r8i"]
