@@ -11,12 +11,16 @@ defmodule RocketpayWeb.Router do
     plug :basic_auth, Application.compile_env(:rocketpay, :basic_auth)
   end
 
+  # rotas nao autenticadas
   scope "/api", RocketpayWeb do
     pipe_through :api
 
     post "/users", UsersController, :create
+
+    get "/users", UsersController, :index
   end
 
+  # rotas autenticadas
   scope "/api", RocketpayWeb do
     pipe_through [:api, :auth]
 

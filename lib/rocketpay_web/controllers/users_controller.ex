@@ -15,4 +15,12 @@ defmodule RocketpayWeb.UsersController do
       |> render("create.json", user: user)
     end
   end
+
+  def index(connection, _params) do
+    with {:ok, users} <- Rocketpay.index_users() do
+      connection
+      |> put_status(:ok)
+      |> render("index.json", users: users)
+    end
+  end
 end
