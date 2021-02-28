@@ -28,7 +28,7 @@ defmodule RocketpayWeb.UsersView do
 
   def render("index.json", %{users: users}) do
     users
-    |> IO.inspect()
+    # |> IO.inspect()
     |> Enum.map(fn %User{
                      id: id,
                      name: name,

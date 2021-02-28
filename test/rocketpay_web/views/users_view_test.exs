@@ -36,4 +36,56 @@ defmodule RocketpayWeb.UsersViewTest do
 
     assert expected_response == response
   end
+
+  test "renders index.json" do
+    # cria os params
+    params1 = %{
+      name: "Jorjinho",
+      password: "123456",
+      nickname: "j0rg",
+      email: "jorginho@maniero.edu",
+      age: 21
+    }
+
+    params2 = %{
+      name: "Armandinho",
+      password: "123456",
+      nickname: "armands",
+      email: "armands@maniero.edu",
+      age: 25
+    }
+
+    # cria eles e pega os ids
+    {:ok, %User{id: user_id1, account: %Account{id: account_id1}} = user1} =
+      Rocketpay.create_user(params1)
+
+    {:ok, %User{id: user_id2, account: %Account{id: account_id2}} = user2} =
+      Rocketpay.create_user(params2)
+
+    # o Phoenix.View da acesso aos renders
+    response = render(UsersView, "index.json", users: [user1, user2])
+
+    assert [
+      %{
+        account: %{
+          id: ^account_id1
+        },
+        name: "Jorjinho",
+        nickname: "j0rg",
+        email: "jorginho@maniero.edu",
+        age: 21,
+        id: ^user_id1
+      },
+      %{
+        account: %{
+          id: ^account_id2
+        },
+        name: "Armandinho",
+        nickname: "armands",
+        email: "armands@maniero.edu",
+        age: 25,
+        id: ^user_id2
+      }
+    ] = response
+  end
 end
