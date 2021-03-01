@@ -33,8 +33,6 @@ defmodule RocketpayWeb.UsersController do
   end
 
   def update(connection, params) do
-    # IO.inspect(params)
-
     with {:ok, %User{} = user} <- Rocketpay.update_user(params) do
       connection
       |> put_status(:ok)

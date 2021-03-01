@@ -29,7 +29,6 @@ defmodule Rocketpay.User do
     |> cast(params, @required_params)
     # a partir do cast, a struct vira um changeset
     |> validate_changeset()
-    # |> IO.inspect()
     |> validate_required(@required_params)
     |> put_password_hash()
   end

@@ -36,14 +36,12 @@ defmodule RocketpayWeb.UsersView do
   end
 
   def render("update.json", params) do
-    IO.inspect(params.user)
     render("get.json", params)
     |> append_message("User updated")
   end
 
   def render("index.json", %{users: users}) do
     users
-    # |> IO.inspect()
     |> Enum.map(fn %User{
                      id: id,
                      name: name,
