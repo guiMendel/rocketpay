@@ -21,19 +21,33 @@ defmodule Rocketpay.User do
     timestamps()
   end
 
+  # changeset para novo usuario
   # mapeia (faz o cast certinho dos tipo de cada parametro) e valida dados para serem inseridos na tabela
   def changeset(params) do
     # __MODULE__ é um alias para o modulo atual, nesse caso Rocketpay.User
     %__MODULE__{}
     |> cast(params, @required_params)
     # a partir do cast, a struct vira um changeset
+    |> validate_changeset()
+    # |> IO.inspect()
     |> validate_required(@required_params)
+    |> put_password_hash()
+  end
+
+  # changeset para aplicar alteracoes
+  def changeset(%__MODULE__{id: _id} = struct, params) do
+    struct
+    |> cast(params, @required_params)
+    |> validate_changeset()
+  end
+
+  def validate_changeset(changeset) do
+    changeset
     |> validate_length(:password, min: 6)
     |> validate_number(:age, greater_than_or_equal_to: 18)
     |> validate_format(:email, ~r/@/)
     |> unique_constraint([:email])
     |> unique_constraint([:nickname])
-    |> put_password_hash()
   end
 
   # fazemos pattern matching para pegar um argumento do tipo changeset valido

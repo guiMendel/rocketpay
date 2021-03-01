@@ -1,29 +1,44 @@
 defmodule RocketpayWeb.UsersView do
   alias Rocketpay.{User, Account}
 
-  def render("create.json", %{
-        user: %User{
-          id: id,
-          name: name,
-          nickname: nickname,
-          account: %Account{
-            id: account_id,
-            balance: balance
+  def render(
+        "get.json",
+        %{
+          user: %User{
+            id: id,
+            name: name,
+            nickname: nickname,
+            email: email,
+            age: age,
+            account: %Account{
+              id: account_id,
+              balance: balance
+            }
           }
         }
-      }) do
+      ) do
     %{
-      message: "User created",
-      user: %{
-        id: id,
-        name: name,
-        nickname: nickname,
-        account: %{
-          id: account_id,
-          balance: balance
-        }
+      id: id,
+      name: name,
+      nickname: nickname,
+      email: email,
+      age: age,
+      account: %{
+        id: account_id,
+        balance: balance
       }
     }
+  end
+
+  def render("create.json", params) do
+    render("get.json", params)
+    |> append_message("User created")
+  end
+
+  def render("update.json", params) do
+    IO.inspect(params.user)
+    render("get.json", params)
+    |> append_message("User updated")
   end
 
   def render("index.json", %{users: users}) do
@@ -53,4 +68,6 @@ defmodule RocketpayWeb.UsersView do
       }
     end)
   end
+
+  defp append_message(%{} = user, message), do: %{user: user, message: message}
 end

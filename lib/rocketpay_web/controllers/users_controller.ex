@@ -23,4 +23,30 @@ defmodule RocketpayWeb.UsersController do
       |> render("index.json", users: users)
     end
   end
+
+  def get(connection, params) do
+    with {:ok, %User{} = user} <- Rocketpay.get_user(params) do
+      connection
+      |> put_status(:ok)
+      |> render("get.json", user: user)
+    end
+  end
+
+  def update(connection, params) do
+    # IO.inspect(params)
+
+    with {:ok, %User{} = user} <- Rocketpay.update_user(params) do
+      connection
+      |> put_status(:ok)
+      |> render("update.json", user: user)
+    end
+  end
+
+  def delete(connection, params) do
+    with {:ok, _result} <- Rocketpay.delete_user(params) do
+      connection
+      |> put_status(:no_content)
+      |> text("")
+    end
+  end
 end

@@ -18,6 +18,13 @@ defmodule RocketpayWeb.Router do
     post "/users", UsersController, :create
 
     get "/users", UsersController, :index
+
+    get "/users/:id", UsersController, :get
+
+    # o id vem no corpo
+    put "/users", UsersController, :update
+
+    delete "/users/:id", UsersController, :delete
   end
 
   # rotas autenticadas
