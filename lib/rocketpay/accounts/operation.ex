@@ -18,7 +18,7 @@ defmodule Rocketpay.Accounts.Operation do
     IO.puts(repo)
 
     case repo.get(Account, id) do
-      nil -> {:error, "Account not found"}
+      nil -> {:error, %{message: "Account not found", status: :not_found}}
       account -> {:ok, account}
     end
   end
