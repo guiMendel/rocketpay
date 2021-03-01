@@ -4,7 +4,7 @@ defmodule Rocketpay.Users.Update do
   def call(%{"id" => id} = params) do
     case Repo.get(User, id) do
       %User{} = user -> update_user(user, params)
-      nil -> {:error, "User not found"}
+      nil -> {:error, %{message: "User not found", status: :not_found}}
     end
   end
 
