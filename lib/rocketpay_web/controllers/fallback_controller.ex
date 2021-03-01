@@ -2,10 +2,13 @@
 defmodule RocketpayWeb.FallbackController do
   use RocketpayWeb, :controller
 
-  def call(connection, {:error, result}) do
+  def call(connection, {:error, %{message: result, status: status}}) do
     connection
-    |> put_status(:bad_request)
+    |> put_status(status)
     |> put_view(RocketpayWeb.ErrorView)
     |> render("400.json", result: result)
   end
+
+  def call(connection, {:error, result}),
+    do: call(connection, {:error, %{message: result, status: :bad_request}})
 end

@@ -4,6 +4,7 @@ defmodule Rocketpay.Accounts.Operation do
 
   def call(%{"id" => id, "value" => value}, operation) do
     operation_name = account_operation_name(operation)
+
     Multi.new()
     # verifica se a conta existe
     |> Multi.run(operation_name, fn repo, _changes -> get_account(repo, id) end)
@@ -15,6 +16,7 @@ defmodule Rocketpay.Accounts.Operation do
 
   defp get_account(repo, id) do
     IO.puts(repo)
+
     case repo.get(Account, id) do
       nil -> {:error, "Account not found"}
       account -> {:ok, account}
@@ -35,9 +37,9 @@ defmodule Rocketpay.Accounts.Operation do
     |> handle_cast(balance, operation)
   end
 
-  defp handle_cast({:ok, value}, balance, :deposit), do: Decimal.add(balance, value)
-  defp handle_cast({:ok, value}, balance, :withdraw), do: Decimal.sub(balance, value)
-  defp handle_cast(:error, _balance, _operation), do: {:error, "Invalid deposit value"}
+  defp handle_cast({:ok, value}, balance, :deposit), do: Decimal.add(balance, Decimal.abs(value))
+  defp handle_cast({:ok, value}, balance, :withdraw), do: Decimal.sub(balance, Decimal.abs(value))
+  defp handle_cast(:error, _balance, _operation), do: {:error, "Invalid value"}
 
   defp update_account({:error, _reason} = error, _repo, _account), do: error
 
@@ -45,13 +47,27 @@ defmodule Rocketpay.Accounts.Operation do
     # cria o changeset para atualizar o BD
     params = %{balance: sum}
 
-    account
-    |> Account.changeset(params)
-    |> repo.update()
+    changeset =
+      account
+      |> Account.changeset(params)
+
+    case repo.update(changeset) do
+      {:ok, _account} = result -> result
+      {:error, reason} -> handle_error(reason)
+      e -> e
+    end
   end
 
   defp account_operation_name(operation) do
     "account_#{Atom.to_string(operation)}"
     |> String.to_atom()
+  end
+
+  defp handle_error(reason) do
+    with {"is invalid", _reason} <- reason.errors[:balance] do
+      {:error, %{message: "Insufficient funds", status: :conflict}}
+    else
+      _ -> {:error, reason}
+    end
   end
 end
