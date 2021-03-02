@@ -4,7 +4,10 @@ defmodule RocketpayWeb.Router do
   import Plug.BasicAuth
 
   pipeline :api do
+    plug CORSPlug, origin: "*"
     plug :accepts, ["json"]
+    # configura os dominios autorizados a utilizar os recursos dessa api
+    # as this is as hobby project, any domain will be allowed to access it's resources
   end
 
   pipeline :auth do
