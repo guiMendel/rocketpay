@@ -47,4 +47,11 @@ defmodule RocketpayWeb.UsersController do
       |> text("")
     end
   end
+
+  # preflighted requests
+  def options(connection, _params) do
+    connection
+    |> put_status(:no_content)
+    |> text("")
+  end
 end

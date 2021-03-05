@@ -18,6 +18,9 @@ defmodule RocketpayWeb.Router do
   scope "/api", RocketpayWeb do
     pipe_through :api
 
+    # lida com preflighted requests
+    options "/users", UsersController, :options
+
     post "/users", UsersController, :create
 
     get "/users", UsersController, :index
