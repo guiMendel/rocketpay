@@ -21,6 +21,9 @@ defmodule RocketpayWeb.Router do
     # lida com preflighted requests
     options "/users", UsersController, :options
 
+    # lida com preflighted requests
+    options "/users/:id", UsersController, :options
+
     post "/users", UsersController, :create
 
     get "/users", UsersController, :index
@@ -36,6 +39,15 @@ defmodule RocketpayWeb.Router do
   # rotas autenticadas
   scope "/api", RocketpayWeb do
     pipe_through [:api, :auth]
+
+    # lida com preflighted requests
+    options "/accounts/:id/deposit", AccountsController, :options
+
+    # lida com preflighted requests
+    options "/accounts/:id/withdraw", AccountsController, :options
+
+    # lida com preflighted requests
+    options "/accounts/transaction", AccountsController, :options
 
     post "/accounts/:id/deposit", AccountsController, :deposit
 
