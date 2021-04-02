@@ -29,4 +29,11 @@ defmodule RocketpayWeb.AccountsController do
       |> render("transaction.json", transaction: transaction)
     end
   end
+
+  # preflighted requests
+  def options(connection, _params) do
+    connection
+    |> put_status(:no_content)
+    |> text("")
+  end
 end
