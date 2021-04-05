@@ -4,8 +4,6 @@ API deployed at https://mendel-rocketpay.herokuapp.com/
 
 You can test the API via my frontend API tester, at https://api-tester.vercel.app/
 
-I'll soon be adding a simple frontend to test the API
-
 To run locally:
 
   * Install dependencies with `mix deps.get`
